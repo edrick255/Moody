@@ -2,31 +2,53 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>NutriPro SaaS</title>
+<title>NutriApp</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="login" class="screen active">
   <div class="glass box">
-    <h1 class="logo">NutriPro</h1>
+    <h1 class="logo">NutriApp</h1>
+
     <input id="user" placeholder="Usuario">
-    <input id="pass" type="password" placeholder="Contraseña">
+
+    <div style="position:relative;">
+      <input id="pass" type="password" placeholder="Contraseña">
+      <span id="togglePass" style="position:absolute; right:10px; top:10px; cursor:pointer;">👁</span>
+    </div>
+
     <button id="loginBtn">Entrar</button>
     <button id="registerBtn">Registrar</button>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" class="screen hidden">
 
 <header>
   <h2>Dashboard</h2>
   <button id="logoutBtn">Salir</button>
 </header>
+
+<!-- PERFIL -->
+<section class="glass box">
+  <h3>Perfil</h3>
+  <input id="edad" placeholder="Edad" type="number">
+  
+  <select id="sexo">
+    <option value="">Sexo</option>
+    <option value="hombre">Masculino</option>
+    <option value="mujer">Femenino</option>
+  </select>
+
+  <input id="peso" placeholder="Peso (kg)" type="number">
+  <input id="altura" placeholder="Altura (cm)" type="number">
+
+  <button onclick="calcularIMC()">Calcular IMC</button>
+  <p id="resultadoIMC"></p>
+</section>
 
 <section>
   <h3>Recetas</h3>
