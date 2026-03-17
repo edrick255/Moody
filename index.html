@@ -2,23 +2,26 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>NutriPro</title>
+<title>NutriPro SaaS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<div id="login" class="screen active fade">
-  <div class="glass box scale">
-    <h1>NutriPro</h1>
+<!-- LOGIN -->
+<div id="login" class="screen active">
+  <div class="glass box">
+    <h1 class="logo">NutriPro</h1>
     <input id="user" placeholder="Usuario">
     <input id="pass" type="password" placeholder="Contraseña">
     <button id="loginBtn">Entrar</button>
+    <button id="registerBtn">Registrar</button>
   </div>
 </div>
 
-<div id="app" class="screen hidden fade">
+<!-- APP -->
+<div id="app" class="screen hidden">
 
 <header>
   <h2>Dashboard</h2>
@@ -27,7 +30,7 @@
 
 <section>
   <h3>Recetas</h3>
-  <button id="addRecipe">+ Nueva</button>
+  <button id="addRecipe">+ Nueva receta</button>
   <div id="recipes" class="grid"></div>
 </section>
 
