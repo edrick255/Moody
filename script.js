@@ -600,3 +600,324 @@ c.style.display=title.includes(text)?"block":"none"
 })
 
 }
+/* =========================================================
+ESTILOS AUTOMATICOS (para no modificar styles.css)
+========================================================= */
+
+function applyAdvancedStyles(){
+
+let style=document.createElement("style")
+
+style.innerHTML=`
+
+/* fondo futurista */
+
+body{
+background:linear-gradient(140deg,#020617,#0f172a,#020617);
+font-family:Arial,Helvetica,sans-serif;
+}
+
+/* titulo nutriplan */
+
+#logoTitle{
+font-size:48px;
+font-weight:900;
+text-align:center;
+background:linear-gradient(90deg,#38bdf8,#60a5fa,#38bdf8);
+-webkit-background-clip:text;
+color:transparent;
+text-shadow:0 0 25px rgba(56,189,248,.6);
+margin-bottom:30px;
+}
+
+/* tarjetas recetas */
+
+.card{
+backdrop-filter:blur(20px);
+background:rgba(15,23,42,.8);
+border:1px solid rgba(56,189,248,.3);
+border-radius:16px;
+transition:all .3s;
+}
+
+.card:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px rgba(56,189,248,.4);
+}
+
+/* imagen recetas pequeñas */
+
+.recipeImg{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* imagen grande dentro receta */
+
+#recipeImage{
+width:260px;
+max-height:200px;
+object-fit:cover;
+border-radius:12px;
+display:block;
+margin:auto;
+}
+
+/* botones */
+
+button{
+background:linear-gradient(120deg,#38bdf8,#0ea5e9);
+border:none;
+border-radius:10px;
+padding:8px 14px;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+box-shadow:0 0 10px #38bdf8;
+transform:scale(1.05);
+}
+
+/* menu tres puntos */
+
+.optionsMenu{
+background:#020617;
+border:1px solid #38bdf8;
+border-radius:10px;
+}
+
+/* dashboard */
+
+#nutritionDashboard{
+margin-top:30px;
+padding:20px;
+background:rgba(2,6,23,.8);
+border-radius:14px;
+border:1px solid rgba(56,189,248,.4);
+}
+
+/* plan semanal */
+
+#weeklyPlan{
+margin-top:30px;
+padding:20px;
+border-radius:14px;
+background:rgba(2,6,23,.8);
+border:1px solid rgba(56,189,248,.4);
+}
+
+/* estadisticas */
+
+#monthlyStats{
+margin-top:30px;
+padding:20px;
+background:rgba(2,6,23,.8);
+border-radius:14px;
+border:1px solid rgba(56,189,248,.4);
+}
+
+`
+
+document.head.appendChild(style)
+
+}
+
+
+
+/* =========================================================
+IA PLAN ALIMENTICIO AVANZADO
+========================================================= */
+
+function generateAdvancedDiet(){
+
+let peso=document.getElementById("peso")?.value||70
+let altura=document.getElementById("altura")?.value||170
+let edad=document.getElementById("edad")?.value||25
+
+let calorias=(10*peso)+(6.25*altura)-(5*edad)+5
+
+let desayuno=recipes[Math.floor(Math.random()*recipes.length)]
+let comida=recipes[Math.floor(Math.random()*recipes.length)]
+let cena=recipes[Math.floor(Math.random()*recipes.length)]
+
+return{
+
+calorias:Math.round(calorias),
+
+plan:[
+{hora:"08:00",receta:desayuno.name},
+{hora:"14:00",receta:comida.name},
+{hora:"20:00",receta:cena.name}
+
+]
+
+}
+
+}
+
+
+
+/* =========================================================
+MOSTRAR PLAN INTELIGENTE
+========================================================= */
+
+function showAdvancedPlan(){
+
+let data=generateAdvancedDiet()
+
+let div=document.createElement("div")
+
+div.id="smartDiet"
+
+let html=`<h2>Plan alimenticio inteligente IA</h2>`
+
+html+=`<p>Calorías recomendadas: ${data.calorias}</p>`
+
+data.plan.forEach(p=>{
+
+html+=`<p>${p.hora} - ${p.receta}</p>`
+
+})
+
+div.innerHTML=html
+
+document.getElementById("app").appendChild(div)
+
+}
+
+
+
+/* =========================================================
+GRAFICAS ANIMADAS
+========================================================= */
+
+function drawAnimatedChart(){
+
+let canvas=document.createElement("canvas")
+
+canvas.width=350
+canvas.height=200
+
+canvas.id="animatedChart"
+
+document.getElementById("nutritionDashboard").appendChild(canvas)
+
+let ctx=canvas.getContext("2d")
+
+let value=0
+
+let target=2000
+
+let interval=setInterval(()=>{
+
+ctx.clearRect(0,0,350,200)
+
+ctx.fillStyle="#38bdf8"
+
+ctx.fillRect(50,200-value/10,80,value/10)
+
+ctx.fillStyle="white"
+
+ctx.fillText("Calorías",60,190)
+
+value+=50
+
+if(value>=target){
+
+clearInterval(interval)
+
+}
+
+},30)
+
+}
+
+
+
+/* =========================================================
+ANIMACION TARJETAS RECETA
+========================================================= */
+
+function animateRecipeCards(){
+
+let cards=document.querySelectorAll(".card")
+
+cards.forEach((c,i)=>{
+
+c.style.opacity="0"
+
+setTimeout(()=>{
+
+c.style.transition="all .6s"
+
+c.style.opacity="1"
+
+c.style.transform="translateY(0px)"
+
+},i*120)
+
+})
+
+}
+
+
+
+/* =========================================================
+IA DETECTOR DE ALIMENTOS (SIMULADO)
+========================================================= */
+
+function foodRecognitionAI(){
+
+let input=document.createElement("input")
+
+input.type="file"
+
+input.onchange=function(){
+
+alert("IA detectó posible alimento saludable")
+
+}
+
+input.click()
+
+}
+
+
+
+/* =========================================================
+EXPORTAR PLAN
+========================================================= */
+
+function exportWeeklyPlan(){
+
+let text=document.getElementById("weeklyPlan")?.innerText||"Plan nutricional"
+
+let w=window.open()
+
+w.document.write("<pre>"+text+"</pre>")
+
+w.print()
+
+}
+
+
+
+/* =========================================================
+INICIALIZACION FINAL
+========================================================= */
+
+setTimeout(()=>{
+
+applyAdvancedStyles()
+
+animateRecipeCards()
+
+drawAnimatedChart()
+
+showAdvancedPlan()
+
+},1200)
