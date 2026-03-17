@@ -1412,3 +1412,235 @@ enableAdvancedCalendarInteraction()
 addAdvancedCalendarButton()
 
 },1800)
+/* ======================================================
+BASE DE RECETAS PARA IA
+====================================================== */
+
+let breakfastRecipes=[
+"Avena con frutas",
+"Omelette de espinaca",
+"Yogurt con granola",
+"Hotcakes de avena",
+"Tostadas integrales con aguacate",
+"Smoothie de plátano",
+"Huevos revueltos con tomate"
+]
+
+let snackRecipes=[
+"Yogurt griego con fresas",
+"Manzana con crema de cacahuate",
+"Puñado de nueces",
+"Batido de proteína",
+"Gelatina light",
+"Barra de granola",
+"Plátano con almendras"
+]
+
+let lunchRecipes=[
+"Pollo a la plancha con arroz",
+"Salmón con quinoa",
+"Pasta integral con verduras",
+"Ensalada de atún",
+"Carne magra con verduras",
+"Arroz con pollo saludable",
+"Tacos de lechuga con pollo"
+]
+
+let dinnerRecipes=[
+"Ensalada de pollo",
+"Atún con aguacate",
+"Tortilla española ligera",
+"Salmón con espárragos",
+"Wrap integral de pollo",
+"Sopa de verduras",
+"Huevo con espinaca"
+]
+
+
+
+/* ======================================================
+HORARIOS REALES DE COMIDA
+====================================================== */
+
+let mealTimes=[
+
+{type:"Desayuno",time:"07:00"},
+{type:"Colación",time:"10:30"},
+{type:"Comida",time:"14:00"},
+{type:"Colación",time:"17:30"},
+{type:"Cena",time:"20:30"}
+
+]
+
+
+
+/* ======================================================
+OBTENER RECETA ALEATORIA SEGUN TIPO
+====================================================== */
+
+function getRecipeByType(type){
+
+if(type==="Desayuno"){
+
+return breakfastRecipes[Math.floor(Math.random()*breakfastRecipes.length)]
+
+}
+
+if(type==="Colación"){
+
+return snackRecipes[Math.floor(Math.random()*snackRecipes.length)]
+
+}
+
+if(type==="Comida"){
+
+return lunchRecipes[Math.floor(Math.random()*lunchRecipes.length)]
+
+}
+
+if(type==="Cena"){
+
+return dinnerRecipes[Math.floor(Math.random()*dinnerRecipes.length)]
+
+}
+
+return "Comida saludable"
+
+}
+
+
+
+/* ======================================================
+CREAR TABLA NUTRICIONAL PROFESIONAL
+====================================================== */
+
+function generateProfessionalNutritionTable(){
+
+let days=[
+
+"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"
+
+]
+
+let container=document.createElement("div")
+
+container.id="professionalNutritionTable"
+
+let html=`
+
+<h2>Plan Nutricional Inteligente</h2>
+
+<table style="width:100%;border-collapse:collapse;text-align:center">
+
+<tr>
+
+<th>Día</th>
+<th>Hora</th>
+<th>Tipo de comida</th>
+<th>Receta sugerida</th>
+
+</tr>
+
+`
+
+days.forEach(day=>{
+
+mealTimes.forEach(meal=>{
+
+let recipe=getRecipeByType(meal.type)
+
+html+=`
+
+<tr>
+
+<td>${day}</td>
+
+<td>${meal.time}</td>
+
+<td>${meal.type}</td>
+
+<td contenteditable="true">${recipe}</td>
+
+</tr>
+
+`
+
+})
+
+})
+
+html+=`</table>`
+
+container.innerHTML=html
+
+document.getElementById("app").appendChild(container)
+
+}
+
+
+
+/* ======================================================
+INTERACCION TABLA (DOBLE CLICK CAMBIA RECETA)
+====================================================== */
+
+function enableNutritionTableInteraction(){
+
+let cells=document.querySelectorAll("#professionalNutritionTable td:nth-child(4)")
+
+cells.forEach(cell=>{
+
+cell.addEventListener("dblclick",function(){
+
+let type=this.parentElement.children[2].innerText
+
+this.innerText=getRecipeByType(type)
+
+})
+
+})
+
+}
+
+
+
+/* ======================================================
+BOTON GENERAR NUEVO PLAN
+====================================================== */
+
+function addGeneratePlanButton(){
+
+let btn=document.createElement("button")
+
+btn.innerText="Generar nuevo plan nutricional"
+
+btn.onclick=function(){
+
+let old=document.getElementById("professionalNutritionTable")
+
+if(old) old.remove()
+
+generateProfessionalNutritionTable()
+
+enableNutritionTableInteraction()
+
+}
+
+document.getElementById("app").appendChild(btn)
+
+}
+
+
+
+/* ======================================================
+INICIALIZAR TABLA
+====================================================== */
+
+setTimeout(()=>{
+
+generateProfessionalNutritionTable()
+
+enableNutritionTableInteraction()
+
+addGeneratePlanButton()
+
+},2000)
