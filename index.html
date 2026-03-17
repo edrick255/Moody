@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<title>Nutriplan</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<div id="loginScreen">
+
+<div class="loginCard">
+
+<h1 class="logo3d">NUTRIPLAN</h1>
+
+<p class="subtitle">Planificador nutricional inteligente</p>
+
+<input id="username" placeholder="Usuario">
+
+<input id="password" type="password" placeholder="Contraseña">
+
+<button id="loginBtn">Entrar</button>
+
+</div>
+
+</div>
+
+
+<div id="app">
+
+<header>
+
+<h1 class="logoSmall">NUTRIPLAN</h1>
+
+<input id="search" placeholder="Buscar receta...">
+
+</header>
+
+<div id="recipes"></div>
+
+</div>
+
+
+<div id="recipeModal">
+
+<div class="modalContent">
+
+<span id="closeModal">✕</span>
+
+<h2 id="recipeTitle"></h2>
+
+<img id="recipeImage">
+
+<div id="ingredients"></div>
+
+<canvas id="chart" width="700" height="300"></canvas>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
