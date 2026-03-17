@@ -1,82 +1,66 @@
 body{
   margin:0;
-  font-family: 'Inter', sans-serif;
+  font-family:'Inter',sans-serif;
   background: radial-gradient(circle,#0a0f2c,#000);
   color:white;
-  overflow-x:hidden;
 }
 
-/* ANIMACIONES */
-.fade{
-  transition: all .6s ease;
+/* LOGO 3D */
+.logo{
+  font-size:42px;
+  text-align:center;
+  background: linear-gradient(45deg,#0A84FF,#fff);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  animation: float 3s infinite;
 }
 
-.scale{
-  animation: pop .6s ease;
-}
-
-@keyframes pop{
-  from{ transform:scale(.8); opacity:0;}
-  to{ transform:scale(1); opacity:1;}
-}
-
-.hidden{
-  opacity:0;
-  pointer-events:none;
-  position:absolute;
-}
-
-.active{
-  opacity:1;
-  pointer-events:auto;
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-5px);}
 }
 
 /* LAYOUT */
 .screen{
-  min-height:100vh;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   flex-direction:column;
 }
 
-header{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:20px;
-}
+.hidden{display:none;}
 
 /* GLASS */
 .glass{
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
   border-radius:20px;
-  box-shadow: 0 0 40px rgba(10,132,255,0.2);
+  padding:25px;
+  box-shadow:0 0 40px rgba(10,132,255,0.2);
 }
 
 /* LOGIN */
 .box{
-  padding:30px;
+  width:300px;
   display:flex;
   flex-direction:column;
   gap:15px;
-  width:280px;
 }
 
-/* INPUTS */
+/* INPUT */
 input{
   padding:12px;
-  border-radius:12px;
   border:none;
+  border-radius:12px;
   background: rgba(255,255,255,0.1);
   color:white;
-  transition:.3s;
 }
 
 input:focus{
   outline:none;
-  box-shadow:0 0 15px #0A84FF;
+  box-shadow:0 0 10px #0A84FF;
 }
 
 /* BOTONES */
@@ -84,7 +68,7 @@ button{
   padding:10px;
   border:none;
   border-radius:12px;
-  background: rgba(10,132,255,0.2);
+  background: rgba(10,132,255,0.3);
   color:white;
   cursor:pointer;
   transition:.3s;
@@ -95,10 +79,18 @@ button:hover{
   transform:scale(1.05);
 }
 
+/* HEADER */
+header{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:20px;
+}
+
 /* RECETAS */
 .grid{
   display:grid;
-  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
   gap:15px;
   width:90%;
 }
@@ -106,13 +98,11 @@ button:hover{
 .card{
   padding:10px;
   border-radius:15px;
-  cursor:pointer;
   transition:.3s;
 }
 
 .card:hover{
-  transform: translateY(-5px);
-  box-shadow:0 10px 20px rgba(0,0,0,.5);
+  transform:translateY(-5px);
 }
 
 .card img{
@@ -128,8 +118,8 @@ table{
 }
 
 td,th{
-  padding:10px;
   border:1px solid rgba(255,255,255,0.1);
+  padding:10px;
 }
 
 td input{
