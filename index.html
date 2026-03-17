@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
-<title>Nutriplan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NUTRIPLAN</title>
 
 <link rel="stylesheet" href="styles.css">
 
 </head>
 
+
 <body>
+
+
+
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
-<div class="loginCard">
-
-<h1 class="logo3d">NUTRIPLAN</h1>
+<h1 class="logo">NUTRIPLAN</h1>
 
 <p class="subtitle">Planificador nutricional inteligente</p>
 
-<input id="username" placeholder="Usuario">
+<div class="loginBox">
 
-<input id="password" type="password" placeholder="Contraseña">
+<input id="user" type="text" placeholder="Usuario">
 
-<button id="loginBtn">Entrar</button>
+<input id="pass" type="password" placeholder="Contraseña">
+
+<button onclick="login()">Entrar</button>
 
 </div>
 
 </div>
 
+
+
+
+<!-- APLICACIÓN PRINCIPAL -->
 
 <div id="app">
 
-<header>
+<h1 class="logoMain">NUTRIPLAN</h1>
 
-<h1 class="logoSmall">NUTRIPLAN</h1>
-
-<input id="search" placeholder="Buscar receta...">
-
-</header>
-
-<div id="recipes"></div>
-
-</div>
+<input id="searchRecipe" placeholder="Buscar receta...">
 
 
-<div id="recipeModal">
 
-<div class="modalContent">
 
-<span id="closeModal">✕</span>
+<!-- TABLA NUTRICIONAL -->
 
-<h2 id="recipeTitle"></h2>
+<h2>Plan Nutricional Inteligente</h2>
 
-<img id="recipeImage">
+<div id="nutritionTableContainer"></div>
 
-<div id="ingredients"></div>
 
-<canvas id="chart" width="700" height="300"></canvas>
 
-</div>
+
+<!-- BOTÓN GENERAR PLAN -->
+
+<button class="generateBtn" onclick="generateNutritionTable()">
+
+Generar nuevo plan nutricional
+
+</button>
+
+
 
 </div>
+
+
+
+
+<!-- SCRIPT -->
 
 <script src="script.js"></script>
+
 
 </body>
 </html>
