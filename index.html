@@ -9,34 +9,45 @@
 
 <body>
 
+<!-- LOGIN -->
 <div id="login" class="screen active">
-  <div class="glass box">
+  <div class="glass box login-box">
+
     <h1 class="logo">NutriApp</h1>
+    <p class="subtitle">Nutrición inteligente</p>
 
-    <input id="user" placeholder="Usuario">
-
-    <div style="position:relative;">
-      <input id="pass" type="password" placeholder="Contraseña">
-      <span id="togglePass" style="position:absolute; right:10px; top:10px; cursor:pointer;">👁</span>
+    <div class="input-group">
+      <input id="user" placeholder=" " autocomplete="off">
+      <label>Usuario</label>
     </div>
 
-    <button id="loginBtn">Entrar</button>
-    <button id="registerBtn">Registrar</button>
+    <div class="input-group password-group">
+      <input id="pass" type="password" placeholder=" ">
+      <label>Contraseña</label>
+      <span id="togglePass" class="eye">👁</span>
+    </div>
+
+    <button id="loginBtn" class="primary-btn">Entrar</button>
+    <button id="registerBtn" class="ghost-btn">Crear cuenta</button>
+
+    <p id="loginError" class="error-text"></p>
+
   </div>
 </div>
 
+<!-- APP -->
 <div id="app" class="screen hidden">
 
 <header>
-  <h2>Dashboard</h2>
+  <h2>Dashboard NutriApp</h2>
   <button id="logoutBtn">Salir</button>
 </header>
 
 <!-- PERFIL -->
 <section class="glass box">
-  <h3>Perfil</h3>
+  <h3>Perfil Nutricional</h3>
+
   <input id="edad" placeholder="Edad" type="number">
-  
   <select id="sexo">
     <option value="">Sexo</option>
     <option value="hombre">Masculino</option>
@@ -50,12 +61,14 @@
   <p id="resultadoIMC"></p>
 </section>
 
+<!-- RECETAS -->
 <section>
   <h3>Recetas</h3>
   <button id="addRecipe">+ Nueva receta</button>
   <div id="recipes" class="grid"></div>
 </section>
 
+<!-- PLAN -->
 <section>
   <h3>Plan Nutricional</h3>
   <button id="generate">Generar menú IA</button>
