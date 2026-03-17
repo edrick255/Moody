@@ -3,69 +3,45 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Health Futurista</title>
+  <title>NutriApp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div id="app">
+<div id="login" class="center">
+  <div class="glass box">
+    <h1>NutriApp</h1>
+    <input id="user" placeholder="Usuario">
+    <input id="pass" type="password" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
+  </div>
+</div>
 
-  <!-- LOGIN -->
-  <section id="loginScreen" class="screen active">
-    <div class="glass card login-card">
-      <h1>Health+</h1>
-      <input type="text" id="username" placeholder="Usuario">
-      <input type="password" id="password" placeholder="Contraseña">
-      <button onclick="login()">Entrar</button>
-    </div>
+<div id="app" class="hidden">
+
+  <header>
+    <h2>Dashboard</h2>
+    <button onclick="logout()">Salir</button>
+  </header>
+
+  <!-- RECETAS -->
+  <section>
+    <h3>Recetas</h3>
+    <button onclick="addRecipePrompt()">+ Nueva receta</button>
+    <div id="recipes" class="grid"></div>
   </section>
 
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="screen">
-    <header>
-      <h2>Dashboard</h2>
-      <button onclick="logout()">Salir</button>
-    </header>
+  <!-- DETALLE -->
+  <section id="detail" class="hidden"></section>
 
-    <div class="cards">
-      <div class="glass card"><h3>Calorías</h3><p id="cal">0</p></div>
-      <div class="glass card"><h3>Proteínas</h3><p id="pro">0g</p></div>
-      <div class="glass card"><h3>Grasas</h3><p id="fat">0g</p></div>
-      <div class="glass card"><h3>Carbs</h3><p id="carb">0g</p></div>
+  <!-- PLAN -->
+  <section>
+    <h3>Plan Nutricional</h3>
+    <button onclick="generatePlan()">Generar menú</button>
+    <div class="table-wrap">
+      <table id="plan"></table>
     </div>
-
-    <div class="glass chart-card">
-      <canvas id="chart"></canvas>
-    </div>
-
-    <!-- TABLA -->
-    <div class="glass table-card">
-      <h3>Nutrición</h3>
-      <div class="inputs">
-        <input id="food" placeholder="Alimento">
-        <input id="calories" placeholder="Calorías" type="number">
-        <input id="protein" placeholder="Proteína" type="number">
-        <input id="fatInput" placeholder="Grasa" type="number">
-        <input id="carbs" placeholder="Carbs" type="number">
-        <button onclick="addFood()">+</button>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Alimento</th>
-            <th>Cal</th>
-            <th>P</th>
-            <th>G</th>
-            <th>C</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-
   </section>
 
 </div>
