@@ -13,11 +13,23 @@ const logoutBtn = document.getElementById("logoutBtn");
 const userInput = document.getElementById("user");
 const passInput = document.getElementById("pass");
 
+const togglePass = document.getElementById("togglePass");
+
 const addRecipeBtn = document.getElementById("addRecipe");
 const generateBtn = document.getElementById("generate");
 
+/* 👁 MOSTRAR / OCULTAR PASSWORD */
+togglePass.onclick = ()=>{
+  passInput.type = passInput.type === "password" ? "text" : "password";
+};
+
 /* LOGIN */
 loginBtn.onclick = async ()=>{
+  if(!userInput.value || !passInput.value){
+    alert("Por favor completa usuario y contraseña");
+    return;
+  }
+
   const res = await fetch(API+"/login",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -33,12 +45,17 @@ loginBtn.onclick = async ()=>{
     localStorage.setItem("token", token);
     enterApp();
   }else{
-    alert("Error login");
+    alert("Credenciales incorrectas");
   }
 };
 
 /* REGISTER */
 registerBtn.onclick = async ()=>{
+  if(!userInput.value || !passInput.value){
+    alert("Completa los campos");
+    return;
+  }
+
   const res = await fetch(API+"/register",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -48,7 +65,7 @@ registerBtn.onclick = async ()=>{
     })
   });
 
-  alert(res.ok ? "Registrado" : "Error");
+  alert(res.ok ? "Registrado correctamente" : "Error al registrar");
 };
 
 /* LOGOUT */
@@ -63,6 +80,33 @@ function enterApp(){
   appScreen.classList.remove("hidden");
   loadRecipes();
   initPlan();
+}
+
+/* IMC */
+function calcularIMC(){
+  const peso = parseFloat(document.getElementById("peso").value);
+  const altura = parseFloat(document.getElementById("altura").value) / 100;
+
+  if(!peso || !altura){
+    alert("Completa peso y altura");
+    return;
+  }
+
+  const imc = peso / (altura * altura);
+  let mensaje = "";
+
+  if(imc < 18.5){
+    mensaje = "Bajo peso - aumentar calorías";
+  }else if(imc < 25){
+    mensaje = "Peso normal - mantener dieta equilibrada";
+  }else if(imc < 30){
+    mensaje = "Sobrepeso - déficit calórico";
+  }else{
+    mensaje = "Obesidad - plan nutricional estricto";
+  }
+
+  document.getElementById("resultadoIMC").innerText =
+    `IMC: ${imc.toFixed(2)} | ${mensaje}`;
 }
 
 /* RECETAS */
@@ -90,10 +134,11 @@ async function loadRecipes(){
   });
 }
 
-/* AGREGAR */
 addRecipeBtn.onclick = async ()=>{
   const name = prompt("Nombre receta");
   const img = prompt("URL imagen");
+
+  if(!name) return;
 
   await fetch(API+"/recipes",{
     method:"POST",
@@ -107,7 +152,6 @@ addRecipeBtn.onclick = async ()=>{
   loadRecipes();
 };
 
-/* ELIMINAR */
 async function deleteRecipe(id){
   await fetch(API+"/recipes/"+id,{
     method:"DELETE",
