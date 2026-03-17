@@ -1,6 +1,6 @@
-/* =========================
+/* =================================
 LOGIN
-========================= */
+================================= */
 
 document.getElementById("loginBtn").onclick=function(){
 
@@ -13,6 +13,7 @@ document.getElementById("loginScreen").style.display="none"
 document.getElementById("app").style.display="block"
 
 loadRecipes()
+initHealthPanel()
 
 }else{
 
@@ -24,9 +25,9 @@ alert("Ingresa usuario y contraseña")
 
 
 
-/* =========================
-GUARDAR Y CARGAR RECETAS
-========================= */
+/* =================================
+GUARDAR RECETAS
+================================= */
 
 function saveRecipes(){
 
@@ -48,9 +49,9 @@ recipes=JSON.parse(data)
 
 
 
-/* =========================
-IA ESTIMADOR NUTRICIONAL
-========================= */
+/* =================================
+IA ESTIMADOR CALORIAS
+================================= */
 
 function estimateCalories(name,grams){
 
@@ -85,9 +86,9 @@ return Math.round((base/100)*grams)
 
 
 
-/* =========================
-BASE RECETAS
-========================= */
+/* =================================
+RECETAS BASE
+================================= */
 
 let recipes=[
 
@@ -139,36 +140,6 @@ ingredients:[
 ["Pollo",150,200],
 ["Verduras",100,60]
 ]
-},
-
-{
-name:"Ensalada mediterránea",
-image:"https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg",
-ingredients:[
-["Tomate",100,20],
-["Pepino",80,10],
-["Queso feta",50,120]
-]
-},
-
-{
-name:"Pasta saludable",
-image:"https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg",
-ingredients:[
-["Pasta",150,220],
-["Salsa tomate",80,40],
-["Queso",30,100]
-]
-},
-
-{
-name:"Batido energético",
-image:"https://images.pexels.com/photos/103566/pexels-photo-103566.jpeg",
-ingredients:[
-["Plátano",120,100],
-["Leche",200,120],
-["Avena",60,90]
-]
 }
 
 ]
@@ -179,9 +150,9 @@ loadSavedRecipes()
 
 
 
-/* =========================
+/* =================================
 CARGAR TARJETAS
-========================= */
+================================= */
 
 function loadRecipes(){
 
@@ -213,7 +184,7 @@ card.innerHTML=`
 
 </div>
 
-<img src="${r.image}">
+<img class="recipeImg" src="${r.image}">
 
 <h3 onclick="openRecipe(${i})">${r.name}</h3>
 
@@ -227,9 +198,9 @@ container.appendChild(card)
 
 
 
-/* =========================
+/* =================================
 MENU
-========================= */
+================================= */
 
 function toggleMenu(i){
 
@@ -241,9 +212,9 @@ m.style.display=m.style.display==="block"?"none":"block"
 
 
 
-/* =========================
+/* =================================
 EDITAR RECETA
-========================= */
+================================= */
 
 function renameRecipe(i){
 
@@ -266,8 +237,6 @@ saveRecipes()
 loadRecipes()
 
 }
-
-
 
 function uploadImage(i){
 
@@ -296,8 +265,6 @@ reader.readAsDataURL(file)
 input.click()
 
 }
-
-
 
 function deleteRecipe(i){
 
@@ -329,9 +296,9 @@ loadRecipes()
 
 
 
-/* =========================
+/* =================================
 ABRIR RECETA
-========================= */
+================================= */
 
 function openRecipe(i){
 
@@ -347,7 +314,11 @@ document.getElementById("recipeImage").src=r.image
 let ingDiv=document.getElementById("ingredients")
 ingDiv.innerHTML=""
 
+let totalCalories=0
+
 r.ingredients.forEach((ing,index)=>{
+
+totalCalories+=ing[2]
 
 let d=document.createElement("div")
 
@@ -365,6 +336,12 @@ ingDiv.appendChild(d)
 
 })
 
+let total=document.createElement("h3")
+
+total.innerText="Total Calorías: "+totalCalories
+
+ingDiv.appendChild(total)
+
 let addBtn=document.createElement("button")
 
 addBtn.innerText="Agregar ingrediente"
@@ -379,9 +356,9 @@ drawChart()
 
 
 
-/* =========================
+/* =================================
 CERRAR MODAL
-========================= */
+================================= */
 
 document.getElementById("closeModal").onclick=function(){
 
@@ -409,9 +386,9 @@ currentRecipe=null
 
 
 
-/* =========================
+/* =================================
 INGREDIENTES
-========================= */
+================================= */
 
 function editIngredientName(index){
 
@@ -490,9 +467,9 @@ saveRecipes()
 
 
 
-/* =========================
-GRAFICA ANIMADA
-========================= */
+/* =================================
+GRAFICA
+================================= */
 
 function drawChart(){
 
@@ -507,23 +484,13 @@ ing.forEach((i,index)=>{
 
 let height=i[2]
 
-let current=0
-
-let interval=setInterval(function(){
-
 ctx.fillStyle="#38bdf8"
 
-ctx.fillRect(100+index*140,260-current,100,current)
+ctx.fillRect(100+index*140,260-height,80,height)
 
-current+=5
+ctx.fillStyle="white"
 
-if(current>=height){
-
-clearInterval(interval)
-
-}
-
-},10)
+ctx.fillText(i[0],100+index*140,280)
 
 })
 
@@ -531,9 +498,92 @@ clearInterval(interval)
 
 
 
-/* =========================
+/* =================================
+PANEL SALUD
+================================= */
+
+function initHealthPanel(){
+
+let panel=document.createElement("div")
+
+panel.innerHTML=`
+
+<h2>Perfil de Salud</h2>
+
+Peso(kg)<input id="peso">
+
+Altura(cm)<input id="altura">
+
+Edad<input id="edad">
+
+Alergias<input id="alergias">
+
+Enfermedades<input id="enfermedades">
+
+<button onclick="calculateBMI()">Calcular IMC</button>
+
+<button onclick="generatePlan()">Generar plan semanal</button>
+
+<div id="imcResult"></div>
+
+<div id="planSemanal"></div>
+
+`
+
+document.getElementById("app").prepend(panel)
+
+}
+
+
+
+/* =================================
+IMC
+================================= */
+
+function calculateBMI(){
+
+let peso=document.getElementById("peso").value
+let altura=document.getElementById("altura").value/100
+
+let imc=(peso/(altura*altura)).toFixed(2)
+
+document.getElementById("imcResult").innerText="IMC: "+imc
+
+}
+
+
+
+/* =================================
+PLAN SEMANAL
+================================= */
+
+function generatePlan(){
+
+let days=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
+
+let plan=""
+
+days.forEach(d=>{
+
+let r=recipes[Math.floor(Math.random()*recipes.length)]
+
+plan+=`<p><b>${d}</b>  
+08:00 Desayuno  
+13:00 Comida  
+20:00 Cena  
+Receta sugerida: ${r.name}</p>`
+
+})
+
+document.getElementById("planSemanal").innerHTML=plan
+
+}
+
+
+
+/* =================================
 BUSCADOR
-========================= */
+================================= */
 
 document.getElementById("search").oninput=function(){
 
