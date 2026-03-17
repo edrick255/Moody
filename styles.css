@@ -1,240 +1,443 @@
+/* ======================================================
+FONDO GENERAL FUTURISTA
+====================================================== */
+
 body{
+background:linear-gradient(140deg,#020617,#0f172a,#020617);
+font-family:Arial,Helvetica,sans-serif;
+color:white;
 margin:0;
-font-family:Arial;
-background:#020617;
-color:white;
+padding:0;
 }
 
-/* LOGIN */
 
-#loginScreen{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-
-background:
-radial-gradient(circle at 20% 20%,rgba(59,130,246,.35),transparent 40%),
-radial-gradient(circle at 80% 70%,rgba(56,189,248,.35),transparent 40%),
-linear-gradient(140deg,#020617,#0f172a,#020617);
-}
-
-.loginCard{
-background:rgba(0,0,0,.55);
-padding:55px;
-border-radius:22px;
-backdrop-filter:blur(25px);
-text-align:center;
-width:360px;
-
-box-shadow:
-0 25px 70px rgba(0,0,0,.9),
-0 0 45px rgba(56,189,248,.5);
-}
-
-/* TITULO */
-
-.logo3d{
-font-size:56px;
-letter-spacing:4px;
-color:white;
-
-text-shadow:
-0 1px 0 #ccc,
-0 2px 0 #bbb,
-0 3px 0 #aaa,
-0 4px 0 #999,
-0 5px 0 #888,
-0 6px 0 #777,
-
-0 0 25px rgba(56,189,248,.9),
-0 0 45px rgba(56,189,248,.6);
-}
-
-.subtitle{
-opacity:.8;
-margin-bottom:20px;
-}
-
-.loginCard input{
-width:90%;
-padding:12px;
-margin:10px;
-border:none;
-border-radius:8px;
-}
-
-.loginCard button{
-padding:12px 35px;
-
-background:linear-gradient(135deg,#38bdf8,#2563eb);
-
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:16px;
-
-box-shadow:
-0 0 15px rgba(56,189,248,.8);
-
-transition:.3s;
-}
-
-.loginCard button:hover{
-transform:scale(1.05);
-}
-
-/* APP */
+/* ======================================================
+CONTENEDOR PRINCIPAL
+====================================================== */
 
 #app{
-display:none;
-padding:30px;
+max-width:1200px;
+margin:auto;
+padding:20px;
 }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
+
+/* ======================================================
+TITULO NUTRIPLAN
+====================================================== */
+
+#logoTitle{
+font-size:52px;
+font-weight:900;
+text-align:center;
+background:linear-gradient(90deg,#38bdf8,#60a5fa,#38bdf8);
+-webkit-background-clip:text;
+color:transparent;
+text-shadow:0 0 25px rgba(56,189,248,.6);
+margin-bottom:30px;
 }
 
-.logoSmall{
-font-size:28px;
-letter-spacing:2px;
-}
 
-#search{
-padding:10px;
-border-radius:8px;
-border:none;
-width:220px;
-}
-
-/* TARJETAS */
-
-#recipes{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-gap:20px;
-}
+/* ======================================================
+TARJETAS DE RECETAS
+====================================================== */
 
 .card{
-background:#0f172a;
-border-radius:14px;
-overflow:hidden;
-cursor:pointer;
-position:relative;
-transition:.3s;
-border:1px solid rgba(56,189,248,.2);
+
+backdrop-filter:blur(20px);
+
+background:rgba(15,23,42,.8);
+
+border:1px solid rgba(56,189,248,.3);
+
+border-radius:16px;
+
+transition:all .3s;
+
+padding:12px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
 }
 
 .card:hover{
-transform:translateY(-6px);
-box-shadow:
-0 12px 25px rgba(0,0,0,.6),
-0 0 15px rgba(56,189,248,.5);
+
+transform:scale(1.03);
+
+box-shadow:0 0 20px rgba(56,189,248,.4);
+
 }
 
-.card img{
+
+/* ======================================================
+IMAGENES TARJETAS RECETA
+====================================================== */
+
+.recipeImg{
+
 width:100%;
-height:160px;
+
+height:110px;
+
 object-fit:cover;
-}
 
-.card h3{
-padding:10px;
-}
-
-/* MENU */
-
-.recipeMenu{
-position:absolute;
-top:10px;
-right:10px;
-font-size:22px;
-cursor:pointer;
-color:#38bdf8;
-}
-
-.menuPanel{
-display:none;
-position:absolute;
-top:35px;
-right:10px;
-background:#020617;
 border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,.7);
-}
 
-.menuPanel button{
 display:block;
-width:170px;
-padding:10px;
 
-background:linear-gradient(135deg,#38bdf8,#1d4ed8);
+margin:auto;
 
-border:none;
-color:white;
-text-align:left;
-cursor:pointer;
 }
 
-/* MODAL */
 
-#recipeModal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.85);
-justify-content:center;
-align-items:center;
-}
-
-.modalContent{
-background:#0f172a;
-padding:25px;
-border-radius:12px;
-width:720px;
-position:relative;
-border:1px solid rgba(56,189,248,.4);
-}
-
-#closeModal{
-position:absolute;
-top:12px;
-right:18px;
-font-size:26px;
-cursor:pointer;
-color:#38bdf8;
-}
-
-#closeModal:hover{
-color:white;
-transform:scale(1.2);
-}
+/* ======================================================
+IMAGEN CUANDO SE ABRE RECETA
+====================================================== */
 
 #recipeImage{
-width:100%;
-border-radius:10px;
-margin:10px 0;
+
+width:260px;
+
+max-height:200px;
+
+object-fit:cover;
+
+border-radius:12px;
+
+display:block;
+
+margin:auto;
+
+box-shadow:0 0 12px rgba(56,189,248,.5);
+
 }
 
-#ingredients div{
-margin:6px 0;
+
+/* ======================================================
+CONTENEDOR IMAGEN RECETA
+====================================================== */
+
+.recipeImageContainer{
+
+display:flex;
+
+justify-content:center;
+
+margin-top:10px;
+
+margin-bottom:10px;
+
 }
 
-#ingredients button{
-margin-left:6px;
-padding:5px 10px;
 
-background:linear-gradient(135deg,#38bdf8,#2563eb);
+/* ======================================================
+IMAGENES INGREDIENTES
+====================================================== */
+
+.ingredientImg{
+
+width:40px;
+
+height:40px;
+
+object-fit:cover;
+
+border-radius:8px;
+
+margin-right:8px;
+
+}
+
+
+/* ======================================================
+INPUTS PERFIL USUARIO
+====================================================== */
+
+#peso,
+#altura,
+#edad,
+#sexoUsuario{
+
+width:85px;
+
+padding:6px;
+
+border-radius:8px;
+
+border:1px solid rgba(56,189,248,.4);
+
+background:#020617;
+
+color:white;
+
+text-align:center;
+
+margin:4px;
+
+}
+
+
+/* ======================================================
+BOTONES
+====================================================== */
+
+button{
+
+background:linear-gradient(135deg,#38bdf8,#0284c7);
 
 border:none;
-border-radius:6px;
+
+border-radius:12px;
+
+padding:8px 16px;
+
 color:white;
+
+font-weight:500;
+
 cursor:pointer;
+
+transition:all .3s;
+
+}
+
+button:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 8px 20px rgba(56,189,248,.4);
+
+}
+
+
+/* ======================================================
+MENU OPCIONES 3 PUNTOS
+====================================================== */
+
+.optionsMenu{
+
+background:#020617;
+
+border:1px solid #38bdf8;
+
+border-radius:10px;
+
+padding:6px;
+
+}
+
+
+/* ======================================================
+DASHBOARD NUTRICIONAL
+====================================================== */
+
+#nutritionDashboard{
+
+margin-top:30px;
+
+padding:20px;
+
+background:rgba(2,6,23,.8);
+
+border-radius:14px;
+
+border:1px solid rgba(56,189,248,.4);
+
+}
+
+
+/* ======================================================
+PLAN SEMANAL
+====================================================== */
+
+#weeklyPlan{
+
+margin-top:30px;
+
+padding:20px;
+
+border-radius:14px;
+
+background:rgba(2,6,23,.8);
+
+border:1px solid rgba(56,189,248,.4);
+
+}
+
+
+/* ======================================================
+ESTADISTICAS
+====================================================== */
+
+#monthlyStats{
+
+margin-top:30px;
+
+padding:20px;
+
+background:rgba(2,6,23,.8);
+
+border-radius:14px;
+
+border:1px solid rgba(56,189,248,.4);
+
+}
+
+
+/* ======================================================
+TABLA CALENDARIO NUTRICIONAL
+====================================================== */
+
+#nutritionCalendarAdvanced table{
+
+width:100%;
+
+border-collapse:collapse;
+
+background:rgba(2,6,23,.7);
+
+border-radius:14px;
+
+overflow:hidden;
+
+border:1px solid rgba(56,189,248,.3);
+
+}
+
+#nutritionCalendarAdvanced th{
+
+background:linear-gradient(120deg,#0ea5e9,#0284c7);
+
+padding:10px;
+
+color:white;
+
+font-weight:600;
+
+}
+
+#nutritionCalendarAdvanced td{
+
+padding:10px;
+
+border:1px solid rgba(56,189,248,.2);
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+#nutritionCalendarAdvanced td:hover{
+
+background:rgba(56,189,248,.2);
+
+transform:scale(1.03);
+
+}
+
+
+/* ======================================================
+MODAL RECETA
+====================================================== */
+
+#recipeModal{
+
+backdrop-filter:blur(30px);
+
+background:rgba(2,6,23,.9);
+
+border-radius:16px;
+
+padding:20px;
+
+}
+
+
+/* ======================================================
+BOTON CERRAR RECETA
+====================================================== */
+
+.closeRecipe{
+
+position:absolute;
+
+top:10px;
+
+right:10px;
+
+font-size:22px;
+
+cursor:pointer;
+
+color:#38bdf8;
+
+}
+
+.closeRecipe:hover{
+
+color:white;
+
+transform:scale(1.2);
+
+}
+
+
+/* ======================================================
+SCROLL ESTETICO
+====================================================== */
+
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#020617;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#38bdf8;
+
+border-radius:10px;
+
+}
+
+
+/* ======================================================
+ANIMACION FADE
+====================================================== */
+
+.fadeIn{
+
+animation:fadeIn .6s ease;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
 }
