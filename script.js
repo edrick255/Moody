@@ -1,100 +1,70 @@
-/* =========================
-LOGIN
-========================= */
+/* LOGIN */
 
-function login(){
+const loginPage=document.getElementById("login-page")
+const appPage=document.getElementById("app-page")
 
-let user=document.getElementById("user").value
-let pass=document.getElementById("pass").value
+const loginBtn=document.getElementById("login-btn")
+const logoutBtn=document.getElementById("logout-btn")
+
+const loginError=document.getElementById("login-error")
+
+loginBtn.onclick=()=>{
+
+let user=document.getElementById("login-user").value
+let pass=document.getElementById("login-pass").value
 
 if(user.length>0 && pass.length>0){
 
-document.getElementById("loginScreen").style.display="none"
-document.getElementById("app").style.display="block"
+loginPage.style.display="none"
+appPage.style.display="block"
 
-generateNutritionTable()
+generatePlan()
 
 }else{
 
-alert("Ingresa usuario y contraseña")
+loginError.textContent="Usuario o contraseña inválidos"
 
 }
 
 }
 
+logoutBtn.onclick=()=>{
 
-/* =========================
-RECETAS
-========================= */
+loginPage.style.display="flex"
+appPage.style.display="none"
 
-let breakfast=[
+}
 
+
+
+/* RECETAS */
+
+const breakfasts=[
 "Avena con frutas",
 "Omelette de espinaca",
 "Hotcakes de avena",
-"Yogurt con granola",
-"Tostadas con aguacate",
-"Huevos revueltos con tomate",
-"Smoothie de plátano",
-"Avena con miel",
-"Pan integral con huevo",
-"Yogurt con nueces"
-
+"Yogurt con granola"
 ]
 
-let snack=[
-
-"Manzana con crema de cacahuate",
+const snacks=[
+"Manzana con nueces",
 "Yogurt con fresas",
-"Barra de granola",
-"Puñado de nueces",
-"Batido de proteína",
-"Gelatina light",
-"Plátano con almendras",
-"Mix de semillas",
-"Fruta con yogurt",
-"Batido de avena"
-
+"Barra de granola"
 ]
 
-let lunch=[
-
-"Pollo a la plancha con arroz",
-"Pasta integral con verduras",
-"Salmón con quinoa",
-"Tacos de lechuga con pollo",
-"Ensalada de atún",
-"Carne magra con verduras",
-"Arroz con pollo saludable",
-"Filete de pescado con arroz",
-"Pollo con puré de papa",
-"Ensalada mediterránea"
-
+const lunches=[
+"Pollo con arroz",
+"Pasta integral",
+"Ensalada de atún"
 ]
 
-let dinner=[
-
+const dinners=[
 "Ensalada de pollo",
-"Atún con aguacate",
-"Sopa de verduras",
-"Wrap integral de pollo",
-"Salmón con espárragos",
-"Tortilla española ligera",
-"Ensalada de quinoa",
-"Pescado al horno",
-"Pollo con verduras",
-"Huevo con espinaca"
-
+"Salmón con verduras",
+"Sopa de verduras"
 ]
 
-
-
-/* =========================
-DIAS DE LA SEMANA
-========================= */
-
-let days=[
-
+const days=[
 "Lunes",
 "Martes",
 "Miércoles",
@@ -102,102 +72,60 @@ let days=[
 "Viernes",
 "Sábado",
 "Domingo"
-
 ]
 
 
 
-/* =========================
-FUNCION RANDOM
-========================= */
+function random(arr){
 
-function randomItem(list){
-
-return list[Math.floor(Math.random()*list.length)]
+return arr[Math.floor(Math.random()*arr.length)]
 
 }
 
 
 
-/* =========================
-GENERAR TABLA NUTRICIONAL
-========================= */
+/* TABLA */
 
-function generateNutritionTable(){
+function generatePlan(){
 
-let container=document.getElementById("nutritionTableContainer")
+const container=document.getElementById("table-container")
 
-container.innerHTML=""
+let html="<table>"
 
-let table=document.createElement("table")
-
-table.className="nutritionTable"
-
-let header=`
-
+html+=`
 <tr>
-
 <th>Día</th>
 <th>Desayuno</th>
 <th>Colación</th>
 <th>Comida</th>
 <th>Colación</th>
 <th>Cena</th>
-
 </tr>
-
 `
-
-let rows=""
-
-
 
 days.forEach(day=>{
 
-rows+=`
-
+html+=`
 <tr>
 
 <td>${day}</td>
-
-<td>${randomItem(breakfast)}</td>
-
-<td>${randomItem(snack)}</td>
-
-<td>${randomItem(lunch)}</td>
-
-<td>${randomItem(snack)}</td>
-
-<td>${randomItem(dinner)}</td>
+<td>${random(breakfasts)}</td>
+<td>${random(snacks)}</td>
+<td>${random(lunches)}</td>
+<td>${random(snacks)}</td>
+<td>${random(dinners)}</td>
 
 </tr>
-
 `
 
 })
 
+html+="</table>"
 
-
-table.innerHTML=header+rows
-
-container.appendChild(table)
+container.innerHTML=html
 
 }
 
 
 
-/* =========================
-GENERAR AUTOMATICAMENTE
-========================= */
-
-document.addEventListener("DOMContentLoaded",function(){
-
-let btn=document.querySelector(".generateBtn")
-
-if(btn){
-
-btn.addEventListener("click",generateNutritionTable)
-
-}
-
-})
+document.getElementById("generate-plan").onclick=generatePlan
