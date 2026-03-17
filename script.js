@@ -921,3 +921,261 @@ drawAnimatedChart()
 showAdvancedPlan()
 
 },1200)
+/* ======================================================
+MEJORAR TAMAÑO CAMPOS PERFIL (peso, altura, edad)
+====================================================== */
+
+function improveProfileInputs(){
+
+let inputs=["peso","altura","edad"]
+
+inputs.forEach(id=>{
+
+let el=document.getElementById(id)
+
+if(el){
+
+el.style.width="90px"
+el.style.padding="6px"
+el.style.borderRadius="8px"
+el.style.textAlign="center"
+el.style.margin="4px"
+
+}
+
+})
+
+}
+
+setTimeout(improveProfileInputs,800)
+
+
+
+/* ======================================================
+CALCULO IMC MEJORADO
+====================================================== */
+
+function calculateAdvancedBMI(){
+
+let peso=parseFloat(document.getElementById("peso")?.value)
+let altura=parseFloat(document.getElementById("altura")?.value)
+
+if(!peso || !altura)return
+
+altura=altura/100
+
+let imc=peso/(altura*altura)
+
+let estado="Normal"
+
+if(imc<18.5)estado="Bajo peso"
+if(imc>=25)estado="Sobrepeso"
+if(imc>=30)estado="Obesidad"
+
+let div=document.createElement("div")
+
+div.innerHTML=`
+
+<p><b>IMC:</b> ${imc.toFixed(1)}</p>
+<p><b>Estado:</b> ${estado}</p>
+
+`
+
+document.getElementById("nutritionDashboard")?.appendChild(div)
+
+}
+
+
+
+/* ======================================================
+GENERAR 200 RECETAS AUTOMATICAS
+====================================================== */
+
+function generateRecipeDatabase(){
+
+let foods=[
+
+"avena","huevo","pollo","arroz","salmon","quinoa","yogurt",
+"fresa","platano","manzana","espinaca","pasta","queso",
+"atún","frijoles","lentejas","pan integral","leche","granola"
+
+]
+
+let types=["Desayuno","Colacion","Comida","Colacion","Cena"]
+
+let db=[]
+
+for(let i=0;i<200;i++){
+
+let food=foods[Math.floor(Math.random()*foods.length)]
+
+let type=types[Math.floor(Math.random()*types.length)]
+
+db.push({
+
+name:type+" saludable "+(i+1),
+type:type,
+calories:Math.floor(Math.random()*400)+150,
+food:food
+
+})
+
+}
+
+return db
+
+}
+
+let recipeDB=generateRecipeDatabase()
+
+
+
+/* ======================================================
+GENERAR CALENDARIO NUTRICIONAL
+====================================================== */
+
+function createNutritionCalendar(){
+
+let container=document.createElement("div")
+
+container.id="nutritionCalendar"
+
+let days=[
+
+"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"
+
+]
+
+let meals=["Desayuno","Colación","Comida","Colación 2","Cena"]
+
+let html=`<h2>Calendario Nutricional</h2>`
+
+html+=`<table border="1" style="width:100%;text-align:center;border-collapse:collapse">`
+
+html+="<tr><th>Día</th>"
+
+meals.forEach(m=>{
+
+html+=`<th>${m}</th>`
+
+})
+
+html+="</tr>"
+
+
+
+days.forEach(day=>{
+
+html+=`<tr>`
+
+html+=`<td><b>${day}</b></td>`
+
+meals.forEach(meal=>{
+
+let r=recipeDB[Math.floor(Math.random()*recipeDB.length)]
+
+html+=`
+
+<td contenteditable="true">
+
+${r.name}
+
+</td>
+
+`
+
+})
+
+html+=`</tr>`
+
+})
+
+
+
+html+="</table>"
+
+container.innerHTML=html
+
+document.getElementById("app").appendChild(container)
+
+}
+
+
+
+/* ======================================================
+INTERACCION CALENDARIO
+====================================================== */
+
+function enableCalendarInteraction(){
+
+let cells=document.querySelectorAll("#nutritionCalendar td")
+
+cells.forEach(c=>{
+
+c.addEventListener("click",function(){
+
+this.style.background="#0ea5e9"
+
+})
+
+})
+
+}
+
+
+
+/* ======================================================
+IA PARA SUGERIR RECETA EN CELDA
+====================================================== */
+
+function suggestRecipe(cell){
+
+let r=recipeDB[Math.floor(Math.random()*recipeDB.length)]
+
+cell.innerText=r.name
+
+}
+
+
+
+/* ======================================================
+BOTON GENERAR NUEVO PLAN
+====================================================== */
+
+function addCalendarControls(){
+
+let btn=document.createElement("button")
+
+btn.innerText="Generar nuevo calendario"
+
+btn.onclick=function(){
+
+document.getElementById("nutritionCalendar").remove()
+
+createNutritionCalendar()
+
+enableCalendarInteraction()
+
+}
+
+document.getElementById("app").appendChild(btn)
+
+}
+
+
+
+/* ======================================================
+INICIALIZAR CALENDARIO
+====================================================== */
+
+setTimeout(()=>{
+
+createNutritionCalendar()
+
+enableCalendarInteraction()
+
+addCalendarControls()
+
+calculateAdvancedBMI()
+
+},1600)
