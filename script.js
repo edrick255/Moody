@@ -1,18 +1,14 @@
 // app.js
 
-let data = [];
-let chart;
+let recipes = [];
 
 function login(){
-  const u = document.getElementById('username').value;
-  const p = document.getElementById('password').value;
-
-  if(u && p){
-    document.getElementById('loginScreen').classList.remove('active');
-    document.getElementById('dashboard').classList.add('active');
-    initChart();
-  } else {
-    alert("Completa los campos");
+  if(user.value && pass.value){
+    loginDiv = document.getElementById('login');
+    app = document.getElementById('app');
+    loginDiv.classList.add('hidden');
+    app.classList.remove('hidden');
+    initPlan();
   }
 }
 
@@ -20,86 +16,94 @@ function logout(){
   location.reload();
 }
 
-function addFood(){
-  const food = document.getElementById('food').value;
-  const cal = +document.getElementById('calories').value;
-  const pro = +document.getElementById('protein').value;
-  const fat = +document.getElementById('fatInput').value;
-  const carb = +document.getElementById('carbs').value;
-
-  if(!food) return;
-
-  const item = {food, cal, pro, fat, carb};
-  data.push(item);
-
-  updateTable();
-  updateStats();
-  updateChart();
+function addRecipePrompt(){
+  const name = prompt("Nombre receta");
+  const img = prompt("URL imagen");
+  if(name){
+    recipes.push({name, img, ingredients:[]});
+    renderRecipes();
+  }
 }
 
-function updateTable(){
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
+function renderRecipes(){
+  const container = document.getElementById('recipes');
+  container.innerHTML = '';
 
-  data.forEach(d=>{
-    tbody.innerHTML += `
-      <tr>
-        <td>${d.food}</td>
-        <td>${d.cal}</td>
-        <td>${d.pro}</td>
-        <td>${d.fat}</td>
-        <td>${d.carb}</td>
-      </tr>
+  recipes.forEach((r,i)=>{
+    container.innerHTML += `
+      <div class="glass card" onclick="openRecipe(${i})">
+        <div class="menu" onclick="event.stopPropagation();menu(${i})">⋮</div>
+        <img src="${r.img || 'https://via.placeholder.com/150'}">
+        <p>${r.name}</p>
+      </div>
     `;
   });
 }
 
-function updateStats(){
-  let cal=0, pro=0, fat=0, carb=0;
-
-  data.forEach(d=>{
-    cal+=d.cal;
-    pro+=d.pro;
-    fat+=d.fat;
-    carb+=d.carb;
-  });
-
-  document.getElementById('cal').innerText = cal;
-  document.getElementById('pro').innerText = pro+"g";
-  document.getElementById('fat').innerText = fat+"g";
-  document.getElementById('carb').innerText = carb+"g";
+function menu(i){
+  const opt = prompt("1 editar, 2 eliminar, 3 imagen");
+  if(opt==1){
+    recipes[i].name = prompt("Nuevo nombre");
+  }
+  if(opt==2){
+    recipes.splice(i,1);
+  }
+  if(opt==3){
+    recipes[i].img = prompt("Nueva imagen");
+  }
+  renderRecipes();
 }
 
-function initChart(){
-  const ctx = document.getElementById('chart');
+function openRecipe(i){
+  const r = recipes[i];
+  const d = document.getElementById('detail');
+  d.classList.remove('hidden');
 
-  chart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Proteína','Grasa','Carbs'],
-      datasets: [{
-        data: [0,0,0]
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          labels: { color: 'white' }
-        }
-      }
-    }
-  });
+  d.innerHTML = `
+    <div class="glass">
+      <h3>${r.name}</h3>
+      <button onclick="addIngredient(${i})">+ ingrediente</button>
+      <ul>
+        ${r.ingredients.map((ing,idx)=>`
+          <li>
+            ${ing.name} - ${ing.qty} - ${ing.cal} kcal
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  `;
 }
 
-function updateChart(){
-  let pro=0, fat=0, carb=0;
+function addIngredient(i){
+  const name = prompt("Ingrediente");
+  const qty = prompt("Cantidad");
+  const cal = prompt("Calorías");
+  recipes[i].ingredients.push({name,qty,cal});
+  openRecipe(i);
+}
 
-  data.forEach(d=>{
-    pro+=d.pro;
-    fat+=d.fat;
-    carb+=d.carb;
+function initPlan(){
+  const days = ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"];
+  const meals = ["Des","Col","Com","Col","Cena"];
+  const table = document.getElementById('plan');
+
+  let html = "<tr><th>Día</th>";
+  meals.forEach(m=> html += `<th>${m}</th>`);
+  html += "</tr>";
+
+  days.forEach(d=>{
+    html += `<tr><td>${d}</td>`;
+    meals.forEach(()=>{
+      html += `<td><input></td>`;
+    });
+    html += "</tr>";
   });
 
-  chart.data.datasets[0].data = [pro,fat,carb];
-  chart.update();
+  table.innerHTML = html;
+}
+
+function generatePlan(){
+  document.querySelectorAll("#plan input").forEach(i=>{
+    i.value = ["Pollo","Arroz","Ensalada","Fruta","Pescado"][Math.floor(Math.random()*5)];
+  });
 }
