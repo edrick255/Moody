@@ -1179,3 +1179,236 @@ addCalendarControls()
 calculateAdvancedBMI()
 
 },1600)
+/* =====================================================
+CAMPO SEXO (MASCULINO / FEMENINO)
+===================================================== */
+
+function addSexSelector(){
+
+let container=document.createElement("div")
+
+container.id="sexSelector"
+
+container.innerHTML=`
+
+<label>Sexo:</label>
+
+<select id="sexoUsuario">
+
+<option value="M">Masculino</option>
+
+<option value="F">Femenino</option>
+
+</select>
+
+`
+
+container.style.margin="6px"
+
+let dash=document.getElementById("nutritionDashboard")
+
+if(dash) dash.prepend(container)
+
+}
+
+setTimeout(addSexSelector,600)
+
+
+
+/* =====================================================
+MEJORAR CALCULO CALORIAS CON SEXO
+===================================================== */
+
+function calculateCaloriesAdvanced(){
+
+let peso=parseFloat(document.getElementById("peso")?.value)
+let altura=parseFloat(document.getElementById("altura")?.value)
+let edad=parseFloat(document.getElementById("edad")?.value)
+let sexo=document.getElementById("sexoUsuario")?.value
+
+if(!peso || !altura || !edad) return 2000
+
+let tmb
+
+if(sexo==="F"){
+
+tmb=(10*peso)+(6.25*altura)-(5*edad)-161
+
+}else{
+
+tmb=(10*peso)+(6.25*altura)-(5*edad)+5
+
+}
+
+return Math.round(tmb*1.4)
+
+}
+
+
+
+/* =====================================================
+HORARIOS DE COMIDA
+===================================================== */
+
+let mealSchedule=[
+
+{meal:"Desayuno",time:"07:00"},
+{meal:"Colación",time:"10:30"},
+{meal:"Comida",time:"14:00"},
+{meal:"Colación 2",time:"17:30"},
+{meal:"Cena",time:"20:30"}
+
+]
+
+
+
+/* =====================================================
+GENERAR RECETA PARA CALENDARIO
+===================================================== */
+
+function getRandomRecipeForMeal(meal){
+
+let list=recipeDB.filter(r=>r.type.toLowerCase().includes(meal.toLowerCase()))
+
+if(list.length===0) list=recipeDB
+
+return list[Math.floor(Math.random()*list.length)]
+
+}
+
+
+
+/* =====================================================
+CALENDARIO NUTRICIONAL AVANZADO
+===================================================== */
+
+function createAdvancedNutritionCalendar(){
+
+let container=document.createElement("div")
+
+container.id="nutritionCalendarAdvanced"
+
+let days=[
+
+"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"
+
+]
+
+let html=`<h2>Calendario Nutricional Inteligente</h2>`
+
+html+=`<table style="width:100%;border-collapse:collapse;text-align:center">`
+
+html+=`<tr>
+
+<th>Día</th>
+<th>07:00 Desayuno</th>
+<th>10:30 Colación</th>
+<th>14:00 Comida</th>
+<th>17:30 Colación</th>
+<th>20:30 Cena</th>
+
+</tr>`
+
+days.forEach(day=>{
+
+html+=`<tr>`
+
+html+=`<td><b>${day}</b></td>`
+
+mealSchedule.forEach(m=>{
+
+let recipe=getRandomRecipeForMeal(m.meal)
+
+html+=`
+
+<td contenteditable="true" data-meal="${m.meal}">
+
+${recipe.name}
+
+</td>
+
+`
+
+})
+
+html+=`</tr>`
+
+})
+
+html+=`</table>`
+
+container.innerHTML=html
+
+document.getElementById("app").appendChild(container)
+
+}
+
+
+
+/* =====================================================
+INTERACCION CALENDARIO
+===================================================== */
+
+function enableAdvancedCalendarInteraction(){
+
+let cells=document.querySelectorAll("#nutritionCalendarAdvanced td")
+
+cells.forEach(c=>{
+
+c.addEventListener("dblclick",function(){
+
+let meal=this.dataset.meal
+
+let r=getRandomRecipeForMeal(meal)
+
+this.innerText=r.name
+
+})
+
+})
+
+}
+
+
+
+/* =====================================================
+BOTON GENERAR NUEVO CALENDARIO
+===================================================== */
+
+function addAdvancedCalendarButton(){
+
+let btn=document.createElement("button")
+
+btn.innerText="Generar plan semanal automático"
+
+btn.onclick=function(){
+
+let old=document.getElementById("nutritionCalendarAdvanced")
+
+if(old) old.remove()
+
+createAdvancedNutritionCalendar()
+
+enableAdvancedCalendarInteraction()
+
+}
+
+document.getElementById("app").appendChild(btn)
+
+}
+
+
+
+/* =====================================================
+INICIALIZAR NUEVO SISTEMA
+===================================================== */
+
+setTimeout(()=>{
+
+createAdvancedNutritionCalendar()
+
+enableAdvancedCalendarInteraction()
+
+addAdvancedCalendarButton()
+
+},1800)
