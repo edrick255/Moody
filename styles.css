@@ -1,130 +1,110 @@
 body{
   margin:0;
-  font-family:'Inter',sans-serif;
-  background: radial-gradient(circle,#0a0f2c,#000);
+  font-family:Arial;
+  background:linear-gradient(135deg,#000,#0A84FF);
   color:white;
 }
 
-/* LOGO 3D */
-.logo{
-  font-size:42px;
-  text-align:center;
-  background: linear-gradient(45deg,#0A84FF,#fff);
-  -webkit-background-clip:text;
-  color:transparent;
-  text-shadow: 0 5px 15px rgba(0,0,0,0.5);
-  animation: float 3s infinite;
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-5px);}
-}
-
-/* LAYOUT */
 .screen{
-  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
+  height:100vh;
 }
 
 .hidden{display:none;}
 
-/* GLASS */
 .glass{
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(25px);
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
   border-radius:20px;
-  padding:25px;
-  box-shadow:0 0 40px rgba(10,132,255,0.2);
+  padding:20px;
 }
 
-/* LOGIN */
-.box{
-  width:300px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.logo{
+  font-size:40px;
+  text-shadow:0 0 20px #0A84FF;
 }
 
-/* INPUT */
-input{
-  padding:12px;
+/* LOGIN PRO */
+.input-group{
+  position:relative;
+  margin:10px 0;
+}
+
+.input-group input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
   border:none;
-  border-radius:12px;
-  background: rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.1);
   color:white;
 }
 
-input:focus{
-  outline:none;
-  box-shadow:0 0 10px #0A84FF;
+.input-group label{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  transition:.3s;
 }
 
-/* BOTONES */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown)+label{
+  top:-10px;
+  font-size:12px;
+  color:#0A84FF;
+}
+
+.eye{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+}
+
 button{
+  margin:5px;
   padding:10px;
   border:none;
-  border-radius:12px;
-  background: rgba(10,132,255,0.3);
-  color:white;
+  border-radius:10px;
   cursor:pointer;
   transition:.3s;
 }
 
-button:hover{
+.primary-btn{
   background:#0A84FF;
+}
+
+button:hover{
   transform:scale(1.05);
 }
 
-/* HEADER */
-header{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:20px;
+.error-text{
+  color:red;
 }
 
-/* RECETAS */
 .grid{
   display:grid;
-  grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
-  gap:15px;
-  width:90%;
+  grid-template-columns:repeat(auto-fill,150px);
+  gap:10px;
 }
 
 .card{
   padding:10px;
-  border-radius:15px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  text-align:center;
+  cursor:pointer;
   transition:.3s;
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:scale(1.05);
 }
 
 .card img{
   width:100%;
   border-radius:10px;
-}
-
-/* TABLA */
-table{
-  width:90%;
-  margin-top:20px;
-  border-collapse:collapse;
-}
-
-td,th{
-  border:1px solid rgba(255,255,255,0.1);
-  padding:10px;
-}
-
-td input{
-  width:100%;
-  background:transparent;
-  border:none;
-  color:white;
 }
