@@ -1644,3 +1644,285 @@ enableNutritionTableInteraction()
 addGeneratePlanButton()
 
 },2000)
+/* ======================================================
+BASE GRANDE DE RECETAS
+====================================================== */
+
+let breakfastRecipes=[
+
+"Avena con frutas",
+"Omelette de espinaca",
+"Yogurt con granola",
+"Hotcakes de avena",
+"Tostadas integrales con aguacate",
+"Smoothie de plátano",
+"Huevos revueltos con tomate",
+"Avena con miel",
+"Pan integral con huevo",
+"Yogurt con nueces"
+
+]
+
+let snackRecipes=[
+
+"Yogurt griego con fresas",
+"Manzana con crema de cacahuate",
+"Puñado de nueces",
+"Batido de proteína",
+"Gelatina light",
+"Barra de granola",
+"Plátano con almendras",
+"Fruta con yogurt",
+"Mix de semillas",
+"Batido de avena"
+
+]
+
+let lunchRecipes=[
+
+"Pollo a la plancha con arroz",
+"Salmón con quinoa",
+"Pasta integral con verduras",
+"Ensalada de atún",
+"Carne magra con verduras",
+"Arroz con pollo saludable",
+"Tacos de lechuga con pollo",
+"Filete de pescado con arroz",
+"Pollo con puré de papa",
+"Ensalada mediterránea"
+
+]
+
+let dinnerRecipes=[
+
+"Ensalada de pollo",
+"Atún con aguacate",
+"Tortilla española ligera",
+"Salmón con espárragos",
+"Wrap integral de pollo",
+"Sopa de verduras",
+"Huevo con espinaca",
+"Ensalada de quinoa",
+"Pescado al horno",
+"Pollo con verduras"
+
+]
+
+
+
+/* ======================================================
+HORARIOS REALES
+====================================================== */
+
+let mealTimes=[
+
+{type:"Desayuno",time:"07:00",icon:"🍳",color:"#22c55e"},
+{type:"Colación",time:"10:30",icon:"🍎",color:"#38bdf8"},
+{type:"Comida",time:"14:00",icon:"🥗",color:"#f59e0b"},
+{type:"Colación",time:"17:30",icon:"🍌",color:"#60a5fa"},
+{type:"Cena",time:"20:30",icon:"🌙",color:"#a78bfa"}
+
+]
+
+
+
+/* ======================================================
+RECETAS MULTIPLES
+====================================================== */
+
+function getMultipleRecipes(type){
+
+let list=[]
+
+if(type==="Desayuno") list=breakfastRecipes
+if(type==="Colación") list=snackRecipes
+if(type==="Comida") list=lunchRecipes
+if(type==="Cena") list=dinnerRecipes
+
+let recipes=[]
+
+for(let i=0;i<3;i++){
+
+recipes.push(list[Math.floor(Math.random()*list.length)])
+
+}
+
+return recipes.join(" / ")
+
+}
+
+
+
+/* ======================================================
+CALORIAS APROX
+====================================================== */
+
+function randomCalories(){
+
+return Math.floor(Math.random()*200)+250
+
+}
+
+
+
+/* ======================================================
+TABLA PROFESIONAL
+====================================================== */
+
+function generateProfessionalNutritionTableV2(){
+
+let days=[
+
+"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"
+
+]
+
+let container=document.createElement("div")
+
+container.id="professionalNutritionTable"
+
+let html=`<h2>Plan Nutricional Inteligente</h2>`
+
+html+=`<table border="1" style="width:100%;border-collapse:collapse;text-align:center">`
+
+html+=`
+
+<tr>
+
+<th>Día</th>
+<th>Hora</th>
+<th>Tipo</th>
+<th>Opciones de recetas</th>
+<th>Calorías aprox</th>
+
+</tr>
+
+`
+
+days.forEach(day=>{
+
+mealTimes.forEach(meal=>{
+
+let recipes=getMultipleRecipes(meal.type)
+
+let calories=randomCalories()
+
+html+=`
+
+<tr>
+
+<td>${day}</td>
+
+<td>${meal.time}</td>
+
+<td style="color:${meal.color}">${meal.icon} ${meal.type}</td>
+
+<td contenteditable="true">${recipes}</td>
+
+<td>${calories} kcal</td>
+
+</tr>
+
+`
+
+})
+
+})
+
+html+=`</table>`
+
+container.innerHTML=html
+
+document.getElementById("app").appendChild(container)
+
+}
+
+
+
+/* ======================================================
+INTERACCION
+====================================================== */
+
+function enableNutritionTableInteractionV2(){
+
+let cells=document.querySelectorAll("#professionalNutritionTable td:nth-child(4)")
+
+cells.forEach(cell=>{
+
+cell.addEventListener("dblclick",function(){
+
+let type=this.parentElement.children[2].innerText
+
+if(type.includes("Desayuno")){
+
+this.innerText=getMultipleRecipes("Desayuno")
+
+}
+
+if(type.includes("Colación")){
+
+this.innerText=getMultipleRecipes("Colación")
+
+}
+
+if(type.includes("Comida")){
+
+this.innerText=getMultipleRecipes("Comida")
+
+}
+
+if(type.includes("Cena")){
+
+this.innerText=getMultipleRecipes("Cena")
+
+}
+
+})
+
+})
+
+}
+
+
+
+/* ======================================================
+BOTON GENERAR NUEVO PLAN
+====================================================== */
+
+function addGeneratePlanButtonV2(){
+
+let btn=document.createElement("button")
+
+btn.innerText="Generar nuevo plan nutricional"
+
+btn.onclick=function(){
+
+let old=document.getElementById("professionalNutritionTable")
+
+if(old) old.remove()
+
+generateProfessionalNutritionTableV2()
+
+enableNutritionTableInteractionV2()
+
+}
+
+document.getElementById("app").appendChild(btn)
+
+}
+
+
+
+/* ======================================================
+INICIAR
+====================================================== */
+
+setTimeout(()=>{
+
+generateProfessionalNutritionTableV2()
+
+enableNutritionTableInteractionV2()
+
+addGeneratePlanButtonV2()
+
+},2200)
