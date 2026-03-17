@@ -1,70 +1,75 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nutriplan</title>
-
-<link rel="stylesheet" href="styles.css">
-
+  <meta charset="UTF-8">
+  <title>Health Futurista</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
-
 <body>
 
-<!-- LOGIN -->
+<div id="app">
 
-<section id="login-page">
+  <!-- LOGIN -->
+  <section id="loginScreen" class="screen active">
+    <div class="glass card login-card">
+      <h1>Health+</h1>
+      <input type="text" id="username" placeholder="Usuario">
+      <input type="password" id="password" placeholder="Contraseña">
+      <button onclick="login()">Entrar</button>
+    </div>
+  </section>
 
-<div class="login-container">
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="screen">
+    <header>
+      <h2>Dashboard</h2>
+      <button onclick="logout()">Salir</button>
+    </header>
 
-<h1 class="logo">NUTRIPLAN</h1>
-<p class="subtitle">Plan nutricional inteligente</p>
+    <div class="cards">
+      <div class="glass card"><h3>Calorías</h3><p id="cal">0</p></div>
+      <div class="glass card"><h3>Proteínas</h3><p id="pro">0g</p></div>
+      <div class="glass card"><h3>Grasas</h3><p id="fat">0g</p></div>
+      <div class="glass card"><h3>Carbs</h3><p id="carb">0g</p></div>
+    </div>
 
-<input id="login-user" placeholder="Usuario">
-<input id="login-pass" type="password" placeholder="Contraseña">
+    <div class="glass chart-card">
+      <canvas id="chart"></canvas>
+    </div>
 
-<button id="login-btn">Entrar</button>
+    <!-- TABLA -->
+    <div class="glass table-card">
+      <h3>Nutrición</h3>
+      <div class="inputs">
+        <input id="food" placeholder="Alimento">
+        <input id="calories" placeholder="Calorías" type="number">
+        <input id="protein" placeholder="Proteína" type="number">
+        <input id="fatInput" placeholder="Grasa" type="number">
+        <input id="carbs" placeholder="Carbs" type="number">
+        <button onclick="addFood()">+</button>
+      </div>
 
-<p id="login-error"></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Alimento</th>
+            <th>Cal</th>
+            <th>P</th>
+            <th>G</th>
+            <th>C</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+  </section>
 
 </div>
 
-</section>
-
-
-
-<!-- APP -->
-
-<section id="app-page">
-
-<header class="topbar">
-
-<h1>NUTRIPLAN</h1>
-
-<button id="logout-btn">Salir</button>
-
-</header>
-
-
-
-<main class="dashboard">
-
-<h2>Plan nutricional semanal</h2>
-
-<div id="table-container"></div>
-
-<button id="generate-plan">Generar nuevo plan</button>
-
-</main>
-
-</section>
-
-
-<script src="script.js"></script>
-
+<script src="app.js"></script>
 </body>
 </html>
