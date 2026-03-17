@@ -1,48 +1,41 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>NutriApp</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>NutriPro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<div id="login" class="center">
-  <div class="glass box">
-    <h1>NutriApp</h1>
+<div id="login" class="screen active fade">
+  <div class="glass box scale">
+    <h1>NutriPro</h1>
     <input id="user" placeholder="Usuario">
     <input id="pass" type="password" placeholder="Contraseña">
-    <button onclick="login()">Entrar</button>
+    <button id="loginBtn">Entrar</button>
   </div>
 </div>
 
-<div id="app" class="hidden">
+<div id="app" class="screen hidden fade">
 
-  <header>
-    <h2>Dashboard</h2>
-    <button onclick="logout()">Salir</button>
-  </header>
+<header>
+  <h2>Dashboard</h2>
+  <button id="logoutBtn">Salir</button>
+</header>
 
-  <!-- RECETAS -->
-  <section>
-    <h3>Recetas</h3>
-    <button onclick="addRecipePrompt()">+ Nueva receta</button>
-    <div id="recipes" class="grid"></div>
-  </section>
+<section>
+  <h3>Recetas</h3>
+  <button id="addRecipe">+ Nueva</button>
+  <div id="recipes" class="grid"></div>
+</section>
 
-  <!-- DETALLE -->
-  <section id="detail" class="hidden"></section>
-
-  <!-- PLAN -->
-  <section>
-    <h3>Plan Nutricional</h3>
-    <button onclick="generatePlan()">Generar menú</button>
-    <div class="table-wrap">
-      <table id="plan"></table>
-    </div>
-  </section>
+<section>
+  <h3>Plan Nutricional</h3>
+  <button id="generate">Generar menú IA</button>
+  <table id="plan"></table>
+</section>
 
 </div>
 
