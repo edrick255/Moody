@@ -1,4 +1,6 @@
-/* LOGIN */
+/* =========================
+LOGIN
+========================= */
 
 document.getElementById("loginBtn").onclick=function(){
 
@@ -22,7 +24,70 @@ alert("Ingresa usuario y contraseña")
 
 
 
-/* BASE RECETAS */
+/* =========================
+GUARDAR Y CARGAR RECETAS
+========================= */
+
+function saveRecipes(){
+
+localStorage.setItem("nutriplan_recipes",JSON.stringify(recipes))
+
+}
+
+function loadSavedRecipes(){
+
+let data=localStorage.getItem("nutriplan_recipes")
+
+if(data){
+
+recipes=JSON.parse(data)
+
+}
+
+}
+
+
+
+/* =========================
+IA ESTIMADOR NUTRICIONAL
+========================= */
+
+function estimateCalories(name,grams){
+
+name=name.toLowerCase()
+
+let table={
+
+pollo:165,
+arroz:130,
+avena:389,
+huevo:155,
+salmon:208,
+queso:402,
+pan:265,
+tomate:18,
+lechuga:15,
+platano:89,
+manzana:52,
+fresa:32,
+yogurt:59,
+quinoa:120,
+espinaca:23,
+pepino:16
+
+}
+
+let base=table[name]||120
+
+return Math.round((base/100)*grams)
+
+}
+
+
+
+/* =========================
+BASE RECETAS
+========================= */
 
 let recipes=[
 
@@ -110,9 +175,13 @@ ingredients:[
 
 let currentRecipe=null
 
+loadSavedRecipes()
 
 
-/* CARGAR TARJETAS */
+
+/* =========================
+CARGAR TARJETAS
+========================= */
 
 function loadRecipes(){
 
@@ -136,6 +205,8 @@ card.innerHTML=`
 
 <button onclick="changeImage(${i})">Cambiar imagen</button>
 
+<button onclick="uploadImage(${i})">Subir imagen</button>
+
 <button onclick="deleteRecipe(${i})">Eliminar receta</button>
 
 <button onclick="newRecipe()">Nueva receta</button>
@@ -156,7 +227,9 @@ container.appendChild(card)
 
 
 
-/* MENU */
+/* =========================
+MENU
+========================= */
 
 function toggleMenu(i){
 
@@ -168,7 +241,9 @@ m.style.display=m.style.display==="block"?"none":"block"
 
 
 
-/* EDITAR RECETA */
+/* =========================
+EDITAR RECETA
+========================= */
 
 function renameRecipe(i){
 
@@ -176,6 +251,7 @@ let n=prompt("Nuevo nombre",recipes[i].name)
 
 if(n)recipes[i].name=n
 
+saveRecipes()
 loadRecipes()
 
 }
@@ -186,9 +262,42 @@ let url=prompt("URL imagen")
 
 if(url)recipes[i].image=url
 
+saveRecipes()
 loadRecipes()
 
 }
+
+
+
+function uploadImage(i){
+
+let input=document.createElement("input")
+
+input.type="file"
+
+input.onchange=e=>{
+
+let file=e.target.files[0]
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+recipes[i].image=reader.result
+saveRecipes()
+loadRecipes()
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+input.click()
+
+}
+
+
 
 function deleteRecipe(i){
 
@@ -196,6 +305,7 @@ if(confirm("Eliminar receta?")){
 
 recipes.splice(i,1)
 
+saveRecipes()
 loadRecipes()
 
 }
@@ -212,13 +322,16 @@ ingredients:[["Ingrediente",100,50]]
 
 })
 
+saveRecipes()
 loadRecipes()
 
 }
 
 
 
-/* ABRIR RECETA */
+/* =========================
+ABRIR RECETA
+========================= */
 
 function openRecipe(i){
 
@@ -266,39 +379,39 @@ drawChart()
 
 
 
-/* CERRAR MODAL CON X */
+/* =========================
+CERRAR MODAL
+========================= */
 
 document.getElementById("closeModal").onclick=function(){
 
-let modal = document.getElementById("recipeModal");
+let modal=document.getElementById("recipeModal")
 
-modal.style.display="none";
+modal.style.display="none"
 
-currentRecipe=null;
+currentRecipe=null
 
 }
 
+window.addEventListener("click",function(event){
 
-
-/* CERRAR MODAL HACIENDO CLIC FUERA */
-
-window.addEventListener("click", function(event){
-
-let modal=document.getElementById("recipeModal");
+let modal=document.getElementById("recipeModal")
 
 if(event.target===modal){
 
-modal.style.display="none";
+modal.style.display="none"
 
-currentRecipe=null;
+currentRecipe=null
 
 }
 
-});
+})
 
 
 
-/* INGREDIENTES */
+/* =========================
+INGREDIENTES
+========================= */
 
 function editIngredientName(index){
 
@@ -310,6 +423,7 @@ if(newName){
 
 recipes[currentRecipe].ingredients[index][0]=newName
 openRecipe(currentRecipe)
+saveRecipes()
 
 }
 
@@ -319,12 +433,20 @@ function editIngredientAmount(index){
 
 let ing=recipes[currentRecipe].ingredients[index]
 
-let newAmount=prompt("Nueva cantidad",ing[1])
+let grams=prompt("Cantidad gramos",ing[1])
 
-if(newAmount){
+if(grams){
 
-recipes[currentRecipe].ingredients[index][1]=parseInt(newAmount)
+let cal=estimateCalories(ing[0],grams)
+
+recipes[currentRecipe].ingredients[index]=[
+ing[0],
+parseInt(grams),
+cal
+]
+
 openRecipe(currentRecipe)
+saveRecipes()
 
 }
 
@@ -336,6 +458,7 @@ if(confirm("Eliminar ingrediente?")){
 
 recipes[currentRecipe].ingredients.splice(index,1)
 openRecipe(currentRecipe)
+saveRecipes()
 
 }
 
@@ -345,19 +468,21 @@ function addIngredient(){
 
 let name=prompt("Nombre ingrediente")
 let grams=prompt("Cantidad gramos")
-let cal=prompt("Calorías")
 
 if(name){
+
+let cal=estimateCalories(name,grams)
 
 recipes[currentRecipe].ingredients.push([
 
 name,
 parseInt(grams)||100,
-parseInt(cal)||50
+cal
 
 ])
 
 openRecipe(currentRecipe)
+saveRecipes()
 
 }
 
@@ -365,7 +490,9 @@ openRecipe(currentRecipe)
 
 
 
-/* GRAFICA */
+/* =========================
+GRAFICA ANIMADA
+========================= */
 
 function drawChart(){
 
@@ -380,13 +507,23 @@ ing.forEach((i,index)=>{
 
 let height=i[2]
 
+let current=0
+
+let interval=setInterval(function(){
+
 ctx.fillStyle="#38bdf8"
 
-ctx.fillRect(100+index*140,260-height,100,height)
+ctx.fillRect(100+index*140,260-current,100,current)
 
-ctx.fillStyle="white"
+current+=5
 
-ctx.fillText(i[0],100+index*140,280)
+if(current>=height){
+
+clearInterval(interval)
+
+}
+
+},10)
 
 })
 
@@ -394,7 +531,9 @@ ctx.fillText(i[0],100+index*140,280)
 
 
 
-/* BUSCADOR */
+/* =========================
+BUSCADOR
+========================= */
 
 document.getElementById("search").oninput=function(){
 
