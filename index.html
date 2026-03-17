@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NUTRIPLAN</title>
+<title>Nutriplan</title>
 
 <link rel="stylesheet" href="styles.css">
 
@@ -15,70 +15,56 @@
 
 <body>
 
-
-
 <!-- LOGIN -->
 
-<div id="loginScreen">
+<section id="login-page">
+
+<div class="login-container">
 
 <h1 class="logo">NUTRIPLAN</h1>
+<p class="subtitle">Plan nutricional inteligente</p>
 
-<p class="subtitle">Planificador nutricional inteligente</p>
+<input id="login-user" placeholder="Usuario">
+<input id="login-pass" type="password" placeholder="Contraseña">
 
-<div class="loginBox">
+<button id="login-btn">Entrar</button>
 
-<input id="user" type="text" placeholder="Usuario">
-
-<input id="pass" type="password" placeholder="Contraseña">
-
-<button onclick="login()">Entrar</button>
+<p id="login-error"></p>
 
 </div>
 
-</div>
+</section>
 
 
 
+<!-- APP -->
 
-<!-- APLICACIÓN PRINCIPAL -->
+<section id="app-page">
 
-<div id="app">
+<header class="topbar">
 
-<h1 class="logoMain">NUTRIPLAN</h1>
+<h1>NUTRIPLAN</h1>
 
-<input id="searchRecipe" placeholder="Buscar receta...">
+<button id="logout-btn">Salir</button>
 
-
-
-
-<!-- TABLA NUTRICIONAL -->
-
-<h2>Plan Nutricional Inteligente</h2>
-
-<div id="nutritionTableContainer"></div>
+</header>
 
 
 
+<main class="dashboard">
 
-<!-- BOTÓN GENERAR PLAN -->
+<h2>Plan nutricional semanal</h2>
 
-<button class="generateBtn" onclick="generateNutritionTable()">
+<div id="table-container"></div>
 
-Generar nuevo plan nutricional
+<button id="generate-plan">Generar nuevo plan</button>
 
-</button>
+</main>
 
+</section>
 
-
-</div>
-
-
-
-
-<!-- SCRIPT -->
 
 <script src="script.js"></script>
-
 
 </body>
 </html>
