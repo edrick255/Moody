@@ -1,131 +1,105 @@
-/* LOGIN */
+// app.js
 
-const loginPage=document.getElementById("login-page")
-const appPage=document.getElementById("app-page")
+let data = [];
+let chart;
 
-const loginBtn=document.getElementById("login-btn")
-const logoutBtn=document.getElementById("logout-btn")
+function login(){
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
 
-const loginError=document.getElementById("login-error")
-
-loginBtn.onclick=()=>{
-
-let user=document.getElementById("login-user").value
-let pass=document.getElementById("login-pass").value
-
-if(user.length>0 && pass.length>0){
-
-loginPage.style.display="none"
-appPage.style.display="block"
-
-generatePlan()
-
-}else{
-
-loginError.textContent="Usuario o contraseña inválidos"
-
+  if(u && p){
+    document.getElementById('loginScreen').classList.remove('active');
+    document.getElementById('dashboard').classList.add('active');
+    initChart();
+  } else {
+    alert("Completa los campos");
+  }
 }
 
+function logout(){
+  location.reload();
 }
 
-logoutBtn.onclick=()=>{
+function addFood(){
+  const food = document.getElementById('food').value;
+  const cal = +document.getElementById('calories').value;
+  const pro = +document.getElementById('protein').value;
+  const fat = +document.getElementById('fatInput').value;
+  const carb = +document.getElementById('carbs').value;
 
-loginPage.style.display="flex"
-appPage.style.display="none"
+  if(!food) return;
 
+  const item = {food, cal, pro, fat, carb};
+  data.push(item);
+
+  updateTable();
+  updateStats();
+  updateChart();
 }
 
+function updateTable(){
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
 
-
-/* RECETAS */
-
-const breakfasts=[
-"Avena con frutas",
-"Omelette de espinaca",
-"Hotcakes de avena",
-"Yogurt con granola"
-]
-
-const snacks=[
-"Manzana con nueces",
-"Yogurt con fresas",
-"Barra de granola"
-]
-
-const lunches=[
-"Pollo con arroz",
-"Pasta integral",
-"Ensalada de atún"
-]
-
-const dinners=[
-"Ensalada de pollo",
-"Salmón con verduras",
-"Sopa de verduras"
-]
-
-const days=[
-"Lunes",
-"Martes",
-"Miércoles",
-"Jueves",
-"Viernes",
-"Sábado",
-"Domingo"
-]
-
-
-
-function random(arr){
-
-return arr[Math.floor(Math.random()*arr.length)]
-
+  data.forEach(d=>{
+    tbody.innerHTML += `
+      <tr>
+        <td>${d.food}</td>
+        <td>${d.cal}</td>
+        <td>${d.pro}</td>
+        <td>${d.fat}</td>
+        <td>${d.carb}</td>
+      </tr>
+    `;
+  });
 }
 
+function updateStats(){
+  let cal=0, pro=0, fat=0, carb=0;
 
+  data.forEach(d=>{
+    cal+=d.cal;
+    pro+=d.pro;
+    fat+=d.fat;
+    carb+=d.carb;
+  });
 
-/* TABLA */
-
-function generatePlan(){
-
-const container=document.getElementById("table-container")
-
-let html="<table>"
-
-html+=`
-<tr>
-<th>Día</th>
-<th>Desayuno</th>
-<th>Colación</th>
-<th>Comida</th>
-<th>Colación</th>
-<th>Cena</th>
-</tr>
-`
-
-days.forEach(day=>{
-
-html+=`
-<tr>
-
-<td>${day}</td>
-<td>${random(breakfasts)}</td>
-<td>${random(snacks)}</td>
-<td>${random(lunches)}</td>
-<td>${random(snacks)}</td>
-<td>${random(dinners)}</td>
-
-</tr>
-`
-
-})
-
-html+="</table>"
-
-container.innerHTML=html
-
+  document.getElementById('cal').innerText = cal;
+  document.getElementById('pro').innerText = pro+"g";
+  document.getElementById('fat').innerText = fat+"g";
+  document.getElementById('carb').innerText = carb+"g";
 }
 
+function initChart(){
+  const ctx = document.getElementById('chart');
 
+  chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Proteína','Grasa','Carbs'],
+      datasets: [{
+        data: [0,0,0]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      }
+    }
+  });
+}
 
-document.getElementById("generate-plan").onclick=generatePlan
+function updateChart(){
+  let pro=0, fat=0, carb=0;
+
+  data.forEach(d=>{
+    pro+=d.pro;
+    fat+=d.fat;
+    carb+=d.carb;
+  });
+
+  chart.data.datasets[0].data = [pro,fat,carb];
+  chart.update();
+}
